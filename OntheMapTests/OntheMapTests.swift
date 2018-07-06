@@ -21,9 +21,145 @@ class OntheMapTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testGetStudentLocationFromUdacityAPI() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let expectation = XCTestExpectation(description: "Get StudentLocation from Udacity parse using API")
+
+        UdacityClient.sharedInstance().getStudentLocations({ (studentLocation, error) in
+            if let studentLocations = studentLocation{
+                for location in studentLocations.studentLocations{
+                    print(location)
+                }
+                // Fulfill the expectation to indicate that the background task has finished successfully.
+                expectation.fulfill()
+            }
+        })
+        
+        // Wait until the expectation is fulfilled, with a timeout of 10 seconds.
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testPostSessionAPI() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let expectation = XCTestExpectation(description: "Login and get session from Udacity using API")
+        
+        UdacityClient.sharedInstance().postSessionLogin(email: "" , password: "", completionHandlerForPostSession: { (userSession, error) in
+            print(userSession)
+            // Fulfill the expectation to indicate that the background task has finished successfully.
+            expectation.fulfill()
+        })
+        
+        // Wait until the expectation is fulfilled, with a timeout of 10 seconds.
+        wait(for: [expectation], timeout: 100.0)
+    }
+    
+    func testGETtingStudentLocation() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let expectation = XCTestExpectation(description: "Get StudentLocation from Udacity parse")
+        
+        let urlString = "https://parse.udacity.com/parse/classes/StudentLocation"
+        let url = URL(string: urlString)
+        var request = URLRequest(url: url!)
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil { // Handle error
+                return
+            }
+            let studentLocations = try? JSONDecoder().decode(StudentLocations.self, from: data!)
+
+            print(String(data: data!, encoding: .utf8)!)
+            // Fulfill the expectation to indicate that the background task has finished successfully.
+            expectation.fulfill()
+        }
+        task.resume()
+        
+        // Wait until the expectation is fulfilled, with a timeout of 10 seconds.
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testPOSTingStudentLocation() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let expectation = XCTestExpectation(description: "Post StudentLocation from Udacity parse")
+        
+        var request = URLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
+        request.httpMethod = "POST"
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = "{\"uniqueKey\": \"1234\", \"firstName\": \"John\", \"lastName\": \"Doe\",\"mapString\": \"Mountain View, CA\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 37.386052, \"longitude\": -122.083851}".data(using: .utf8)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil { // Handle error…
+                return
+            }
+            print(String(data: data!, encoding: .utf8)!)
+            expectation.fulfill()
+        }
+        task.resume()
+        
+        // Wait until the expectation is fulfilled, with a timeout of 10 seconds.
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testPOSTingSession() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let expectation = XCTestExpectation(description: "Post Session from Udacity parse")
+        
+        var request = URLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = "{\"udacity\": {\"username\": \"sergiosrgtc@gmail.com\", \"password\": \"xwing2013\"}}".data(using: .utf8)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil { // Handle error…
+                return
+            }
+            let range = Range(5..<data!.count)
+            let newData = data?.subdata(in: range) /* subset response data! */
+            print(String(data: newData!, encoding: .utf8)!)
+            let statusCode = (response as? HTTPURLResponse)?.statusCode
+            print(statusCode)
+            expectation.fulfill()
+        }
+        task.resume()
+        
+        // Wait until the expectation is fulfilled, with a timeout of 10 seconds.
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testPUTtingStudentLocation() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let expectation = XCTestExpectation(description: "PUTting StudentLocation from Udacity parse")
+        
+        let urlString = "https://parse.udacity.com/parse/classes/StudentLocation/8ZExGR5uX8"
+        let url = URL(string: urlString)
+        var request = URLRequest(url: url!)
+        request.httpMethod = "PUT"
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = "{\"uniqueKey\": \"1234\", \"firstName\": \"John\", \"lastName\": \"Doe\",\"mapString\": \"Cupertino, CA\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 37.322998, \"longitude\": -122.032182}".data(using: .utf8)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil { // Handle error…
+                return
+            }
+            print(String(data: data!, encoding: .utf8)!)
+            expectation.fulfill()
+        }
+        task.resume()
+        
+        // Wait until the expectation is fulfilled, with a timeout of 10 seconds.
+        wait(for: [expectation], timeout: 10.0)
     }
     
     func testPerformanceExample() {
