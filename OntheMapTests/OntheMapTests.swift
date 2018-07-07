@@ -119,7 +119,7 @@ class OntheMapTests: XCTestCase {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = "{\"udacity\": {\"username\": \"sergiosrgtc@gmail.com\", \"password\": \"xwing2013\"}}".data(using: .utf8)
+        request.httpBody = "{\"udacity\": {\"username\": \"XXXXXXX\", \"password\": \"XXXXXXX\"}}".data(using: .utf8)
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
             if error != nil { // Handle error…
