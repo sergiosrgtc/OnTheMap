@@ -23,26 +23,26 @@ struct StudentLocations: Codable {
 }
 
 struct StudentLocation: Codable {
-    var objectID: String?
-    var latitude: Double?
-    var mapString: String?
-    var lastName: String?
     var uniqueKey: String?
     var firstName: String?
-    var longitude: Double?
+    var lastName: String?
+    var mapString: String?
     var mediaURL: String?
+    var latitude: Double?
+    var longitude: Double?
+    var objectID: String?
     var createdAt: String?
     var updatedAt: String?
     
     enum CodingKeys: String, CodingKey {
-        case objectID = "objectId"
-        case latitude = "latitude"
-        case mapString = "mapString"
-        case lastName = "lastName"
         case uniqueKey = "uniqueKey"
         case firstName = "firstName"
-        case longitude = "longitude"
+        case lastName = "lastName"
+        case mapString = "mapString"
         case mediaURL = "mediaURL"
+        case latitude = "latitude"
+        case longitude = "longitude"
+        case objectID = "objectId"
         case createdAt = "createdAt"
         case updatedAt = "updatedAt"
     }

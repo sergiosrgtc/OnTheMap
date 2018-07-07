@@ -22,8 +22,8 @@ import MapKit
  */
 
 class MapViewController: UIViewController, MKMapViewDelegate {
-    let activityView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var activityView : UIActivityIndicatorView?
 
     // The map. See the setup in the Storyboard file. Note particularly that the view controller
     // is set up as the map view's delegate.
@@ -32,16 +32,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         self.mapView.delegate = self
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         getStudentLocations()
     }
     
     func getStudentLocations(){
-        activityView.center = self.view.center
-        activityView.hidesWhenStopped = true
-        self.view.addSubview(activityView)
-        activityView.startAnimating()
-        
+        activityView = configureActivityIndicator()
+        activityView?.startAnimating()
+        view.alpha = 0.5
         UdacityClient.sharedInstance().getStudentLocations({ (studentLocation, error) in
             if error == nil{
                 if let downloadedStudentLocations = studentLocation{
@@ -52,7 +53,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.showAlert("Error", message: error!.userInfo[NSLocalizedDescriptionKey] as! String)
             }
             DispatchQueue.main.async {
-                self.activityView.stopAnimating()
+                self.activityView?.stopAnimating()
+                self.view.alpha = 1.0
             }
         })
     }
@@ -109,7 +111,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         getStudentLocations()
     }
     
-    
     // MARK: - MKMapViewDelegate
     
     // Here we create a view with a "right callout accessory view". You might choose to look into other
@@ -133,7 +134,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         return pinView
     }
-    
     
     // This delegate method is implemented to respond to taps. It opens the system browser
     // to the URL specified in the annotationViews subtitle property.

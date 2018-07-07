@@ -58,7 +58,5 @@ class AddLocationViewController: UIViewController {
             addlocationMapVC.studentLocation = studentLocation
         }
     }
- 
-
 }
 

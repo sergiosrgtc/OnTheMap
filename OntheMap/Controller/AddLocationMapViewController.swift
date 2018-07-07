@@ -11,7 +11,7 @@ import MapKit
 
 class AddLocationMapViewController: UIViewController {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let activityView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    var activityView : UIActivityIndicatorView?
     var studentLocation: StudentLocation? = nil
     @IBOutlet weak var mapView: MKMapView!
 
@@ -22,10 +22,8 @@ class AddLocationMapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        activityView.center = self.view.center
-        activityView.hidesWhenStopped = true
-        self.view.addSubview(activityView)
-        activityView.startAnimating()
+        activityView = configureActivityIndicator()
+        activityView?.startAnimating()
         updateSearchResultsForSearchController(address: (studentLocation?.mapString)!)
     }
 
@@ -54,27 +52,33 @@ class AddLocationMapViewController: UIViewController {
                     self?.studentLocation?.latitude = location.coordinate.latitude
                     self?.studentLocation?.longitude = location.coordinate.longitude
                 }
+            }else{
+                self?.showAlert("Warning", message: "Address not found!")
+                self?.navigationController?.popViewController(animated: true)
             }
             DispatchQueue.main.async {
-                self?.activityView.stopAnimating()
+                self?.activityView?.stopAnimating()
             }
         }
     }
 
     @IBAction func finish(_ sender: Any) {
+        activityView?.startAnimating()
+        view.alpha = 0.5
         studentLocation?.uniqueKey = appDelegate.userSession?.account.key
+        
+        UdacityClient.sharedInstance().postStudentLocation(studentLocation: studentLocation!) { (result, error) in
+            if error == nil{
+                print("Worked")
+                self.dismiss(animated: true, completion: nil)
+            }else{
+                self.showAlert("Error", message: error!.userInfo[NSLocalizedDescriptionKey] as! String)
+            }
+            DispatchQueue.main.async {
+                self.activityView?.stopAnimating()
+                self.view.alpha = 1.0
+            }
+        }
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 

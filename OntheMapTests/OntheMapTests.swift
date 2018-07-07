@@ -92,7 +92,10 @@ class OntheMapTests: XCTestCase {
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = "{\"uniqueKey\": \"1234\", \"firstName\": \"John\", \"lastName\": \"Doe\",\"mapString\": \"Mountain View, CA\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 37.386052, \"longitude\": -122.083851}".data(using: .utf8)
+       // request.httpBody = "{\"uniqueKey\": \"1234\", \"firstName\": \"Jack\", \"lastName\": \"Friday\",\"mapString\": \"Panama city\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 8.9823245000000007, \"longitude\": -79.527030300000007}".data(using: .utf8)
+            
+        request.httpBody = "{\"mediaURL\":\"http://globo.com\",\"firstName\":\"Eragon\",\"longitude\":-68.150000000000006,\"uniqueKey\":\"1234\",\"latitude\":-16.5,\"mapString\":\"la paz\",\"lastName\":\"Fire\"}".data(using: .utf8)
+        
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
             if error != nil { // Handle error…
@@ -154,6 +157,28 @@ class OntheMapTests: XCTestCase {
                 return
             }
             print(String(data: data!, encoding: .utf8)!)
+            expectation.fulfill()
+        }
+        task.resume()
+        
+        // Wait until the expectation is fulfilled, with a timeout of 10 seconds.
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testGetingUserPulicData() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let expectation = XCTestExpectation(description: "PUTting StudentLocation from Udacity parse")
+        
+        let request = URLRequest(url: URL(string: "https://www.udacity.com/api/users/6703028730")!)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil { // Handle error...
+                return
+            }
+            let range = Range(5..<data!.count)
+            let newData = data?.subdata(in: range) /* subset response data! */
+            print(String(data: newData!, encoding: .utf8)!)
             expectation.fulfill()
         }
         task.resume()

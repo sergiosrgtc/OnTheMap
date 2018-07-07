@@ -14,7 +14,7 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     
-    let activityView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    var activityView : UIActivityIndicatorView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,10 +28,8 @@ class LogInViewController: UIViewController {
     }
     
     @IBAction func logIn(_ sender: Any) {
-        activityView.center = self.view.center
-        activityView.hidesWhenStopped = true
-        self.view.addSubview(activityView)
-        activityView.startAnimating()
+        activityView = configureActivityIndicator()
+        activityView?.startAnimating()
         
         if email.text != ""  && password.text != ""{
             UdacityClient.sharedInstance().postSessionLogin(email: email.text! , password: password.text!, completionHandlerForPostSession: { (userSession, error) in
@@ -46,7 +44,7 @@ class LogInViewController: UIViewController {
                     self.showAlert("Error", message: error!.userInfo[NSLocalizedDescriptionKey] as! String)
                 }
                 DispatchQueue.main.async {
-                    self.activityView.stopAnimating()
+                    self.activityView?.stopAnimating()
                 }
             })
         }else{

@@ -27,7 +27,7 @@ extension UdacityClient {
     struct HttpMethod{
         static let Get = "GET"
         static let Post = "POST"
-        static let Put = "POST"
+        static let Put = "PUT"
         static let Delete = "DELETE"
     }
     struct Methods {
