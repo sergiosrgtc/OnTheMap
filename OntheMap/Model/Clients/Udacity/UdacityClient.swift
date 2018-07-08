@@ -11,12 +11,7 @@ import Foundation
 class UdacityClient : NSObject {
     
     // MARK: Shared Instance
-    class func sharedInstance() -> UdacityClient {
-        struct Singleton {
-            static var sharedInstance = UdacityClient()
-        }
-        return Singleton.sharedInstance
-    }
+    static let sharedInstance = UdacityClient()
     
     // shared session
     var session = URLSession.shared

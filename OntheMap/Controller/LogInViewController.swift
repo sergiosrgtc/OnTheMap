@@ -22,17 +22,12 @@ class LogInViewController: UIViewController {
         self.hideKeyboardWhenTappedAround()        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @IBAction func logIn(_ sender: Any) {
         activityView = configureActivityIndicator()
         activityView?.startAnimating()
         
         if email.text != ""  && password.text != ""{
-            UdacityClient.sharedInstance().postSessionLogin(email: email.text! , password: password.text!, completionHandlerForPostSession: { (userSession, error) in
+            UdacityClient.sharedInstance.postSessionLogin(email: email.text! , password: password.text!, completionHandlerForPostSession: { (userSession, error) in
                 if error == nil && userSession != nil{
                     if userSession!.account.registered{
                         self.appDelegate.userSession = userSession

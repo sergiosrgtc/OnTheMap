@@ -67,7 +67,7 @@ class AddLocationMapViewController: UIViewController {
         view.alpha = 0.5
         studentLocation?.uniqueKey = appDelegate.userSession?.account.key
         
-        UdacityClient.sharedInstance().postStudentLocation(studentLocation: studentLocation!) { (result, error) in
+        UdacityClient.sharedInstance.postStudentLocation(studentLocation: studentLocation!) { (result, error) in
             if error == nil{
                 print("Worked")
                 self.dismiss(animated: true, completion: nil)

@@ -35,7 +35,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         getStudentLocations()
     }
     
@@ -43,13 +43,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         activityView = configureActivityIndicator()
         activityView?.startAnimating()
         view.alpha = 0.5
-        UdacityClient.sharedInstance().getStudentLocations({ (studentLocation, error) in
-            if error == nil{
+        UdacityClient.sharedInstance.getStudentLocations({ (studentLocation, error) in
+            if error == nil {
                 if let downloadedStudentLocations = studentLocation{
                     self.appDelegate.studentLocations = downloadedStudentLocations
                     self.insertStudentLocationInMapView(self.appDelegate.studentLocations!)
                 }
-            }else{
+            } else {
                 self.showAlert("Error", message: error!.userInfo[NSLocalizedDescriptionKey] as! String)
             }
             DispatchQueue.main.async {
@@ -110,6 +110,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBAction func refresh(_ sender: Any) {
         getStudentLocations()
     }
+    
+    @IBAction func logOut(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     // MARK: - MKMapViewDelegate
     

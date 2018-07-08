@@ -37,7 +37,7 @@
                     <navigationItem key="navigationItem" id="LL8-g4-v9c">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="OA6-sO-DSs">
                             <connections>
-                                <segue destination="WoN-T6-WDW" kind="showDetail" id="03a-cb-qoh"/>
+                                <action selector="logOut:" destination="9pv-A4-QxB" id="xxI-fO-0vu"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
@@ -135,11 +135,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                            <integer key="value" value="8"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="address" destination="vAf-oW-NlI" id="oa1-Bl-1xV"/>
                         <outlet property="firstName" destination="gmF-OU-y3Z" id="uw4-V1-oZh"/>
@@ -257,7 +252,7 @@
                     <navigationItem key="navigationItem" id="o1Y-pX-8ab">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="94f-cO-eBb">
                             <connections>
-                                <segue destination="WoN-T6-WDW" kind="showDetail" id="E9q-We-8tT"/>
+                                <action selector="logOut:" destination="8rJ-Kc-sve" id="oFz-Vi-PJM"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
@@ -266,7 +261,11 @@
                                     <segue destination="kXT-2a-uwA" kind="show" id="u6u-8H-bXH"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem style="plain" systemItem="refresh" id="yX6-8H-slM"/>
+                            <barButtonItem style="plain" systemItem="refresh" id="yX6-8H-slM">
+                                <connections>
+                                    <action selector="update:" destination="8rJ-Kc-sve" id="O4B-d3-1xN"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
@@ -452,7 +451,6 @@
         <image name="baseline_map_black_36pt" width="36" height="36"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QHI-zC-Czm"/>
-        <segue reference="03a-cb-qoh"/>
+        <segue reference="u6u-8H-bXH"/>
     </inferredMetricsTieBreakers>
 </document>

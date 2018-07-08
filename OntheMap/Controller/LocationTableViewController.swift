@@ -24,7 +24,19 @@ class LocationTableViewController: UIViewController, UITableViewDelegate, UITabl
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func logOut(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func update(_ sender: Any) {
+        tabBarController?.selectedIndex = 0
+    }
+}
 
+// MARK: - TableView Delegate
+extension LocationTableViewController{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return appDelegate.studentLocations?.studentLocations.count ?? 0
     }
@@ -61,4 +73,3 @@ class LocationTableViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
 }
-

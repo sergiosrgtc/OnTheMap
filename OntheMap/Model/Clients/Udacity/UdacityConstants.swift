@@ -46,14 +46,6 @@ extension UdacityClient {
         static let AppJson = "application/json"
     }
     
-    // MARK: JSON Body Keys
-    struct JSONBodyKeys {
-        static let MediaType = "media_type"
-        static let MediaID = "media_id"
-        static let Favorite = "favorite"
-        static let Watchlist = "watchlist"
-    }
-    
     // MARK: JSON Response Keys
     struct JSONResponseKeys {
         
@@ -67,21 +59,5 @@ extension UdacityClient {
         
         // MARK: Account
         static let UserID = "id"
-        
-        // MARK: Config
-        static let ConfigBaseImageURL = "base_url"
-        static let ConfigSecureBaseImageURL = "secure_base_url"
-        static let ConfigImages = "images"
-        static let ConfigPosterSizes = "poster_sizes"
-        static let ConfigProfileSizes = "profile_sizes"
-        
-        // MARK: Movies
-        static let MovieID = "id"
-        static let MovieTitle = "title"
-        static let MoviePosterPath = "poster_path"
-        static let MovieReleaseDate = "release_date"
-        static let MovieReleaseYear = "release_year"
-        static let MovieResults = "results"
-        
     }
 }
